@@ -1,0 +1,29 @@
+# Local configuration
+config.js
+.env
+.env.*
+
+# Dependencies and caches
+node_modules/
+__pycache__/
+*.py[cod]
+windows/webview2-sdk/
+windows/.cache/
+windows/*.nupkg
+windows/*.zip
+
+# Build outputs
+dist/
+*.exe
+*.dll
+*.pdb
+*.user
+*.suo
+
+# System and editor files
+.vs/
+.vscode/
+.idea/
+desktop.ini
+Thumbs.db
+.DS_Store

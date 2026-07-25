@@ -1,0 +1,16 @@
+{
+  "name": "Spotify Lite",
+  "short_name": "Spotify Lite",
+  "id": "/spotify-lite",
+  "description": "Un lecteur Spotify personnel, simple et leger.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0d0c",
+  "theme_color": "#0b0d0c",
+  "icons": [
+    { "src": "/assets/spotify-lite-64.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "/assets/spotify-lite-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/spotify-lite-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/assets/spotify-lite-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

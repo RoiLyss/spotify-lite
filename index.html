@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0d0c" />
+    <meta name="description" content="Un lecteur Spotify personnel, simple et léger." />
+    <link rel="icon" type="image/png" sizes="64x64" href="/assets/spotify-lite-64.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Spotify Lite</title>
+  </head>
+  <body>
+    <main id="login-view" class="login-shell">
+      <section class="login-card">
+        <div class="brand-mark" aria-hidden="true">S</div>
+        <p class="eyebrow">LECTEUR PERSONNEL</p>
+        <h1>Spotify Lite</h1>
+        <p>Ta musique, sans le superflu.</p>
+        <button id="login-button" class="primary-button">Se connecter avec Spotify</button>
+        <p class="fine-print">La lecture nécessite Spotify Premium.</p>
+        <p id="login-error" class="error" role="alert"></p>
+      </section>
+    </main>
+
+    <div id="app-view" class="app-shell" hidden>
+      <aside class="sidebar">
+        <div class="wordmark"><img src="/assets/spotify-lite-64.png" alt="" /> Spotify Lite</div>
+        <nav aria-label="Navigation principale">
+          <button class="nav-item active" data-view="home"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3l8.5 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-4.5v-6h-5v6H5a1.5 1.5 0 0 1-1.5-1.5z"/></svg><span>Accueil</span></button>
+          <button class="nav-item nav-playlists-shortcut" data-view="playlists" hidden><span>Mes playlists</span></button>
+          <button class="nav-item" data-view="albums"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3M21 12h-3M12 21v-3M3 12h3"/></svg><span>Albums enregistrés</span></button>
+        </nav>
+        <section class="sidebar-library">
+          <header><button id="show-all-playlists" type="button" title="Afficher toutes les playlists"><span class="library-icon">▣</span> Bibliothèque</button><button id="create-playlist-button" class="library-add" type="button" aria-label="Créer une playlist" title="Créer une playlist">＋</button></header>
+          <div class="library-tools"><span>Playlists</span></div>
+          <div id="sidebar-playlists" class="sidebar-playlists"><p>Chargement…</p></div>
+        </section>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <form id="search-form" class="search-box" role="search">
+            <input id="search-input" type="search" placeholder="Rechercher un titre ou un artiste" autocomplete="off" aria-label="Rechercher" />
+            <button type="submit">Rechercher</button>
+          </form>
+          <button id="profile-button" class="profile-button" type="button" aria-haspopup="menu" aria-expanded="false" title="Menu du profil">
+            <img id="profile-avatar" alt="Photo de profil Spotify" hidden />
+            <span id="profile-initials">S</span>
+          </button>
+          <div id="profile-menu" class="profile-menu" role="menu" hidden>
+            <a href="https://www.spotify.com/account/overview/" target="_blank" rel="noreferrer" role="menuitem">Compte <span>↗</span></a>
+            <button id="profile-menu-link" type="button" role="menuitem">Profil</button>
+            <button id="recent-menu-button" type="button" role="menuitem">Contenu récent</button>
+            <button id="usage-menu-button" type="button" role="menuitem">Consommation</button>
+            <a href="https://support.spotify.com/" target="_blank" rel="noreferrer" role="menuitem">Assistance <span>↗</span></a>
+            <label class="menu-preference">Mini-lecteur <input id="menu-mini-toggle" type="checkbox" /></label>
+            <div class="menu-separator"></div>
+            <button id="menu-logout-button" type="button" role="menuitem">Déconnexion</button>
+          </div>
+          <span id="connection-status" class="status"></span>
+        </header>
+
+        <section>
+          <p class="eyebrow" id="section-kicker">POUR TOI</p>
+          <h1 id="section-title">Écoutés récemment</h1>
+          <div id="discovery" hidden></div>
+          <div id="results" class="track-list" aria-live="polite">
+            <p class="empty-state">Chargement de ta musique…</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="player">
+        <div class="now-playing">
+          <div id="cover-placeholder" class="cover-placeholder">♪</div>
+          <img id="cover" alt="" hidden />
+          <div>
+            <strong id="track-title">Aucun morceau</strong>
+            <span id="track-artist">Choisis un titre pour commencer</span>
+          </div>
+        </div>
+        <div class="transport">
+          <div class="transport-buttons">
+            <button id="shuffle-button" class="mode-button" aria-label="Activer la lecture aléatoire" title="Lecture aléatoire"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h2.5c4.5 0 6.5 10 11 10H20M17 4l3 3-3 3M4 17h2.5c1.7 0 3-1.4 4.2-3.2M14 8.2C15 7.5 16.1 7 17.5 7H20M17 14l3 3-3 3"/></svg></button>
+            <button id="previous-button" aria-label="Morceau précédent"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill-icon" d="M6 5h2.5v14H6zm3.8 7L19 5.7v12.6z"/></svg></button>
+            <button id="play-button" class="play-button" aria-label="Lecture ou pause"><svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg></button>
+            <button id="next-button" aria-label="Morceau suivant"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill-icon" d="M15.5 5H18v14h-2.5zM5 5.7l9.2 6.3L5 18.3z"/></svg></button>
+            <button id="repeat-button" class="mode-button" aria-label="Changer le mode de répétition" title="Répétition"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3m13-2v2a3 3 0 0 1-3 3H4"/></svg></button>
+          </div>
+          <div class="progress-row">
+            <span id="elapsed">0:00</span>
+            <input id="progress" type="range" min="0" max="100" value="0" aria-label="Position dans le morceau" />
+            <span id="duration">0:00</span>
+          </div>
+        </div>
+        <div class="player-actions">
+          <button id="mini-button" class="player-icon-button" aria-label="Mini-lecteur" title="Mini-lecteur">◱</button>
+          <label class="volume">Volume <input id="volume" type="range" min="0" max="100" value="55" /></label>
+          <button id="devices-button" class="player-icon-button devices-icon" aria-label="Choisir un appareil" title="Appareils Spotify Connect"></button>
+          <button id="queue-button" class="queue-button" aria-label="Ouvrir la file d’attente" title="File d’attente">☷</button>
+        </div>
+      </footer>
+    </div>
+
+    <aside id="queue-panel" class="queue-panel" aria-label="File d’attente" hidden>
+      <header class="queue-panel-head">
+        <div class="queue-tabs" role="tablist">
+          <button id="queue-tab" class="queue-tab active" role="tab" aria-selected="true">File d’attente</button>
+          <button id="recent-tab" class="queue-tab" role="tab" aria-selected="false">Écoutés récemment</button>
+        </div>
+        <button id="close-queue" class="close-button" aria-label="Fermer">×</button>
+      </header>
+      <div id="queue-panel-content" class="queue-panel-content"></div>
+    </aside>
+
+    <div id="playlist-context-menu" class="playlist-context-menu" role="menu" hidden></div>
+
+    <dialog id="devices-dialog" class="device-dialog">
+      <div class="dialog-head">
+        <div><p class="eyebrow">SPOTIFY CONNECT</p><h2>Choisir un appareil</h2></div>
+        <button id="close-devices" class="close-button" aria-label="Fermer">×</button>
+      </div>
+      <div id="devices-list" class="devices-list"></div>
+    </dialog>
+
+    <dialog id="usage-dialog" class="device-dialog usage-dialog">
+      <div class="dialog-head">
+        <div><p class="eyebrow">SPOTIFY LITE</p><h2>Consommation</h2></div>
+        <button id="close-usage" class="close-button" aria-label="Fermer">×</button>
+      </div>
+      <div class="usage-content">
+        <p class="usage-description">Total de Spotify Lite et de ses processus WebView2.</p>
+        <div class="usage-grid">
+          <article><span>Processeur</span><strong id="usage-cpu">—</strong></article>
+          <article><span>Mémoire</span><strong id="usage-memory">—</strong></article>
+          <article><span>Processus</span><strong id="usage-processes">—</strong></article>
+        </div>
+        <p id="usage-note" class="usage-note">Mesure en cours…</p>
+      </div>
+    </dialog>
+
+    <dialog id="create-playlist-dialog" class="device-dialog playlist-dialog">
+      <form id="create-playlist-form">
+        <div class="dialog-head">
+          <div><p class="eyebrow">NOUVELLE PLAYLIST</p><h2>Créer sur Spotify</h2></div>
+          <button id="close-create-playlist" class="close-button" type="button" aria-label="Fermer">×</button>
+        </div>
+        <div class="playlist-form-content">
+          <label>Nom<input id="playlist-name" maxlength="100" required placeholder="Ma nouvelle playlist" /></label>
+          <label>Description<textarea id="playlist-description" maxlength="300" rows="3" placeholder="Une sélection créée avec Spotify Lite"></textarea></label>
+          <label class="playlist-switch"><span><strong>Playlist publique</strong><small>Visible sur ton profil Spotify</small></span><input id="playlist-public" type="checkbox" /></label>
+          <label class="playlist-switch"><span><strong>Ajouter les titres affichés</strong><small id="playlist-track-count">Aucun titre sélectionné</small></span><input id="playlist-add-current" type="checkbox" checked /></label>
+          <p id="playlist-create-error" class="error" role="alert"></p>
+          <button id="playlist-submit" class="primary-button" type="submit">Créer la playlist</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="edit-playlist-dialog" class="device-dialog playlist-dialog">
+      <form id="edit-playlist-form">
+        <div class="dialog-head">
+          <div><p class="eyebrow">PLAYLIST SPOTIFY</p><h2>Nom et informations</h2></div>
+          <button id="close-edit-playlist" class="close-button" type="button" aria-label="Fermer">×</button>
+        </div>
+        <div class="playlist-form-content">
+          <button id="edit-playlist-cover-button" class="edit-playlist-cover" type="button"><img id="edit-playlist-cover-preview" alt="Pochette de la playlist" /><span>Changer l’image</span></button>
+          <input id="edit-playlist-cover-input" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+          <label>Nom<input id="edit-playlist-name" maxlength="100" required /></label>
+          <label>Description<textarea id="edit-playlist-description" maxlength="300" rows="3"></textarea></label>
+          <label class="playlist-switch"><span><strong>Playlist publique</strong><small>Visible sur ton profil Spotify</small></span><input id="edit-playlist-public" type="checkbox" /></label>
+          <p id="edit-playlist-error" class="error" role="alert"></p>
+          <button id="edit-playlist-submit" class="primary-button" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="add-playlist-track-dialog" class="device-dialog playlist-dialog">
+      <div class="dialog-head"><div><p class="eyebrow">AJOUTER</p><h2>Ajouter des titres</h2></div><button id="close-add-playlist-track" class="close-button" type="button">×</button></div>
+      <form id="add-playlist-track-form" class="playlist-track-search"><input id="add-playlist-track-query" required placeholder="Titre ou artiste" /><button type="submit">Rechercher</button></form>
+      <div id="add-playlist-track-results" class="playlist-track-results"></div>
+    </dialog>
+
+    <script src="/config.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

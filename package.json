@@ -1,0 +1,16 @@
+{
+  "name": "spotify-lite",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Client Spotify non officiel et leger pour Windows.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node --check app.js && node --check server.mjs && node --check config.example.js",
+    "build:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-windows.ps1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
