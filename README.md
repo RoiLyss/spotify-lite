@@ -1,6 +1,6 @@
 # Spotify Lite
 
-Client Spotify non officiel pour Windows, pense comme une version plus legere, plus directe et plus personnelle de Spotify Desktop.
+Un client Spotify non officiel pour Windows, conçu pour offrir une expérience plus légère, plus rapide et plus agréable que l'application officielle.
 
 > Ce projet n'est pas affilie a Spotify AB. Il utilise les API publiques Spotify et OAuth PKCE. La lecture complete necessite un compte Spotify Premium.
 
@@ -10,7 +10,7 @@ Client Spotify non officiel pour Windows, pense comme une version plus legere, p
 
 ## Apercu
 
-Spotify Lite garde l'essentiel : une interface sombre/rose, une vraie fenetre Windows, la lecture Spotify Connect, la recherche, les pages artistes/albums/playlists et une bibliotheque simple a parcourir.
+Spotify Lite a été créé avec un objectif simple : proposer un client Windows fluide qui conserve les fonctionnalités essentielles de Spotify sans surcharger l'interface. Vous retrouvez la recherche, Spotify Connect, les pages artistes, albums et playlists, ainsi qu'une bibliothèque claire et facile à parcourir.
 
 <p align="center">
   <img src="docs/images/preview-artist.png" alt="Page artiste dans Spotify Lite" width="900">
@@ -53,8 +53,6 @@ globalThis.SPOTIFY_LITE_CONFIG = {
   redirectUri: "http://127.0.0.1:43821/callback"
 };
 ```
-
-`config.js` est ignore par Git. Tu peux donc mettre ton Client ID localement sans le publier.
 
 ### 3. Lancer en developpement
 
